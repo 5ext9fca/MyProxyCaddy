@@ -1,4 +1,5 @@
 .env
+conf/Caddyfile
 .DS_Store
 generated/
 *.bak.*
