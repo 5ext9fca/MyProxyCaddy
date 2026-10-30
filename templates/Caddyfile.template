@@ -1,18 +1,25 @@
 {
 	default_sni {$PUBLIC_HOST}
+        auto_https disable_redirects
 }
 
-{$PUBLIC_HOST} {
+https://{$PUBLIC_HOST}:8443 {
 	tls {
 		issuer acme {
 			dir https://acme-v02.api.letsencrypt.org/directory
 			profile shortlived
+                        disable_tlsalpn_challenge
 		}
 	}
 	encode gzip
+
 	import routes/*.caddy
 
 	handle {
 		reverse_proxy mycollab-web:80
 	}
+}
+
+http://{$PUBLIC_HOST}:80 {
+        redir https://{$PUBLIC_HOST}:8443{uri} permanent
 }
