@@ -1,0 +1,31 @@
+name: mycaddy
+
+services:
+  caddy:
+    image: caddy:2.11.7-alpine
+    restart: unless-stopped
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST:?set PUBLIC_HOST in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./conf:/etc/caddy:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - public
+
+networks:
+  public:
+    external: true
+    name: ${CADDY_NETWORK:-caddy-public}
+
+volumes:
+  caddy_data:
+    external: true
+    name: ${CADDY_DATA_VOLUME:-mycaddy_data}
+  caddy_config:
+    external: true
+    name: ${CADDY_CONFIG_VOLUME:-mycaddy_config}

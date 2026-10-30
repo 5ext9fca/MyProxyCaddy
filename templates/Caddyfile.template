@@ -1,0 +1,18 @@
+{
+	default_sni {$PUBLIC_HOST}
+}
+
+{$PUBLIC_HOST} {
+	tls {
+		issuer acme {
+			dir https://acme-v02.api.letsencrypt.org/directory
+			profile shortlived
+		}
+	}
+	encode gzip
+	import routes/*.caddy
+
+	handle {
+		reverse_proxy mycollab-web:80
+	}
+}

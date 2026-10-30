@@ -1,0 +1,5 @@
+.env
+.DS_Store
+generated/
+*.bak.*
+__pycache__/

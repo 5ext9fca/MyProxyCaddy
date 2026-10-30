@@ -1,0 +1,5 @@
+# 保留 /sub 前缀；不启用包含设备令牌的访问日志。
+@subscription path /sub /sub/*
+handle @subscription {
+	reverse_proxy clash-subscription:8080
+}
